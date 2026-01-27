@@ -1,4 +1,4 @@
-import { factorial } from "../helpers/helpers";
+import { factorial } from "../helpers/helpers.js";
 
 class NumKey{
     constructor (value){
@@ -20,7 +20,7 @@ class ActionKey{
     constructor(actionType,label){
         this.type="action";
         this.actionType=actionType;
-        this.label=label;
+        this.label={normal: label, shift: label};
     }
 }
 
