@@ -12,6 +12,7 @@ export class Calculator{
         this.second=new Operand();
         this.operator=null;
         this.displayValue="";
+        this.displayError="";
         this.shiftMode=false;
     }
 
@@ -21,9 +22,10 @@ export class Calculator{
             this.first.value=this.first.value==null ? Number(numKey.value*this.first.sign) : Number(this.first.value+numKey.value);
 
         else if(this.operator!=null)
-            this.second.value=this.second.value==null ? Number(numKey.value*this.second.sign) : Number(""+this.second.value+numKey.value);
+            this.second.value=this.second.value==null ? Number(numKey.value*this.second.sign) : Number(this.second.value+numKey.value);
 
         this.updateDisplayValue(numKey.value);
+        this.displayError="";
     }
 
     inputOperator(opKey){
@@ -38,7 +40,7 @@ export class Calculator{
             return;
 
         if(this.operator){
-            this.displayValue = "Error: lančanje operacija nije dozvoljeno";
+            this.displayError = "Lančanje operacija nije dozvoljeno";
             return;
         }
 
@@ -50,7 +52,7 @@ export class Calculator{
         if(this.first.value!=null) return false;
 
         if(this.first.isSignUsed){
-            this.displayValue = "Error: više predznaka prvog broja!";
+            this.displayError = "Lančanje predznaka broja nije dozvoljeno";
             return true;
         }
 
@@ -66,7 +68,7 @@ export class Calculator{
         if(!this.operator || this.second.value!=null) return false;
 
         if (this.second.isSignUsed) {
-            this.displayValue = "Error: više predznaka drugog broja!";
+            this.displayError = "Lančanje predznaka broja nije dozvoljeno";
             return true;
         }
 
@@ -78,15 +80,11 @@ export class Calculator{
 
     updateDisplayValue(newInput){
         this.displayValue+=newInput;
-
-        console.log("first op: ",this.first);
-        console.log("Operator:",this.operator);
-        console.log("second op: ",this.second);
     }
 
     equals(){
         if(this.first.value==null){
-            this.displayValue="Error: Ne postoji niti jedan operand";
+            this.displayError="Ne postoji niti jedan operand";
             return;
         }
 
@@ -96,7 +94,7 @@ export class Calculator{
         const isUnary= this.shiftMode ? this.operator.unary.shift : this.operator.unary.normal;
 
         if(!isUnary && this.second.value==null){
-            this.displayValue="Error: Nedostaje drugi operand";
+            this.displayError="Nedostaje drugi operand";
             return;
         }
 
@@ -110,9 +108,19 @@ export class Calculator{
             
         this.displayValue=String(result);
 
+        console.log("Operand1: ",this.first.value);
+        console.log("Operator: ",this.operator);
+        console.log("Operand2: ",this.second.value);
+
+
         this.first.value=result;
+
         this.second.value=null;
+        this.second.sign=1;
+
         this.operator=null;
+
+        this.displayError=null;
     }
 
 

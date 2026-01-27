@@ -31,27 +31,37 @@ class ActionKey{
     }
 }
 
+class EqualsKey{
+    constructor(){
+        this.type="equals";
+        this.label="=";
+    }
+}
+
 export const keys=[
 
-    new NumKey("0"),
-    new NumKey("1"),
-    new NumKey("2"),
-    new NumKey("3"),
-    new NumKey("4"),
-    new NumKey("5"),
-    new NumKey("6"),
+    new ActionKey("clear","C"),
+    new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a),false,true),
+    new OpKey("x","log",(a,b)=>a*b,a=>Math.log10(a),false,true),
+    new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a),true,true),
+
     new NumKey("7"),
     new NumKey("8"),
     new NumKey("9"),
+    new OpKey("-", "x³", (a,b)=>a-b, a=>a*a*a, false, true),
 
-    new OpKey("+","!",(a,b)=>a+b,a=>factorial(a),false,true),
-    new OpKey("-","x³",(a,b)=>a-b,a=>a*a*a,false,true),
-    new OpKey("x","log",(a,b)=>a*b,a=>Math.log10(a),false,true),
-    new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a),false,true),
-    new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a),true,true),
+    new NumKey("4"),
+    new NumKey("5"),
+    new NumKey("6"),
+    new OpKey("+","!", (a,b)=>a+b, a=>factorial(a), false, true),
 
-    new ActionKey("equals","="),
-    new ActionKey("clear","C"),
+    new NumKey("1"),
+    new NumKey("2"),
+    new NumKey("3"),
+    new EqualsKey(),
+
+    new NumKey("0"),
+    new NumKey("."),
     new ActionKey("shift","Shift"),
-    new ActionKey("delete","Del")
+    new ActionKey("delete","Del"),
 ]

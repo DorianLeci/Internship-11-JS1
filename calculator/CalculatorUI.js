@@ -2,7 +2,8 @@ import { Calculator } from "./calculator.js";
 
 export class CalculatorUI{
     constructor(displayContainer,buttonsContainer,keys){
-        this.displayContainer=displayContainer;
+        this.displayValueEl = displayContainer.querySelector(".display__value");
+        this.displayErrorEl = displayContainer.querySelector(".display__error");
         this.buttonsContainer=buttonsContainer;
         this.keys=keys;
         this.calculator=new Calculator();
@@ -12,13 +13,28 @@ export class CalculatorUI{
         this.keys.forEach(key=>{
 
             const btn=document.createElement("button");
-            if(key.type=="number")
-                btn.textContent=key.value;
-            else if(key.type=="operation")
-                btn.textContent= this.calculator.shiftMode ? key.label.shift : key.label.normal;
 
-            else if(key.type=="action")
-                btn.textContent=key.label;
+            switch (key.type){
+                case "number":
+                    btn.textContent=key.value;
+                    btn.classList.add("button--dark");
+                    break;
+
+                case "operation":
+                    btn.textContent= this.calculator.shiftMode ? key.label.shift : key.label.normal;
+                    btn.classList.add("button--orange");   
+                    break;
+                    
+                case "equals":
+                    btn.textContent= key.label;
+                    btn.classList.add("button--green");      
+                    break;
+                    
+                case "action":
+                    btn.textContent= key.label;
+                    btn.classList.add("button--red"); 
+                    break;                   
+            }
 
             this.buttonsContainer.appendChild(btn);
 
@@ -28,22 +44,35 @@ export class CalculatorUI{
     }
 
     handleKey(key){
-        if(key.type=="number")
-            this.calculator.inputNumber(key);
 
-        if(key.type=="operation")
-            this.calculator.inputOperator(key);
+        switch (key.type){
+            case "number":
+                this.calculator.inputNumber(key);
+                break;
 
-        if(key.type=="action"){
+            case "operation":
+                this.calculator.inputOperator(key);
+                break;
 
-            switch (key.actionType){
-                case "equals":
-                    this.calculator.equals();
-            }
+            case "action":
+                break;
+
+            case "equals":
+                this.calculator.equals();
+                break;
         }
 
 
-        this.displayContainer.textContent=this.calculator.displayValue;
+        this.updateUI();
+
+
+    }
+
+    updateUI(){
+        this.displayValueEl.textContent=this.calculator.displayValue;
+
+        this.displayErrorEl.textContent=this.calculator.displayError;
+
     }
 }
 

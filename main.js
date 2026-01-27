@@ -1,7 +1,7 @@
 import { CalculatorUI } from "./calculator/CalculatorUI.js";
 import { keys } from "./data/key-model.js";
 
-const display=document.querySelector(".display-container");
+const display=document.querySelector(".display");
 const button=document.querySelector(".button-container");
 
 const calculatorUI=new CalculatorUI(display,button,keys);
