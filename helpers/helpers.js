@@ -6,3 +6,19 @@ export function factorial(n){
 
     return res;
 }
+
+export function toNumberSafe(string,sign){
+    const number=Number(string)*sign;
+
+    if(isNaN(number)) return null;
+
+    return number;
+}
+
+export function mapOperatorForDisplay(label){
+    switch (label){
+        case "x²": return "²";
+        case "x³": return "³";
+        default: return label;
+    }
+}

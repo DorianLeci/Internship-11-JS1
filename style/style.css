@@ -101,4 +101,8 @@ button{
     background-color:  hsl(109, 83%, 65%);
 }
 
+.button--operator{
+    font-size: 32px;
+}
+
 

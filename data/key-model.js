@@ -42,7 +42,7 @@ export const keys=[
 
     new ActionKey("clear","C"),
     new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a),false,true),
-    new OpKey("x","log",(a,b)=>a*b,a=>Math.log10(a),false,true),
+    new OpKey("×","log",(a,b)=>a*b,a=>Math.log10(a),false,true),
     new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a),true,true),
 
     new NumKey("7"),

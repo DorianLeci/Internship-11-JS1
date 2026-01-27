@@ -1,6 +1,8 @@
+import { toNumberSafe,mapOperatorForDisplay } from "../helpers/helpers.js";
+
 class Operand{
     constructor(){
-        this.value=null;
+        this.value="";
         this.sign=1;
         this.isSignUsed=false;
     }
@@ -17,12 +19,22 @@ export class Calculator{
     }
 
     inputNumber(numKey){
+        const value=numKey.value;
+        const target=this.operator==null ? this.first: this.second;
 
-        if(this.operator==null)
-            this.first.value=this.first.value==null ? Number(numKey.value*this.first.sign) : Number(this.first.value+numKey.value);
+        if(this.isOperatorUnary()){
+            this.displayError="Zabranjeno dodavanje operanada iza unarnog operatora";
+            return;
+        }
 
-        else if(this.operator!=null)
-            this.second.value=this.second.value==null ? Number(numKey.value*this.second.sign) : Number(this.second.value+numKey.value);
+        if(value=="."){
+            if(target.value?.includes(".")) return;
+
+            target.value=target.value==="" ? "0." : target.value + ".";
+        }
+
+        else
+            target.value+=value;
 
         this.updateDisplayValue(numKey.value);
         this.displayError="";
@@ -31,7 +43,7 @@ export class Calculator{
     inputOperator(opKey){
 
         const label = this.shiftMode ? opKey.label.shift : opKey.label.normal;
-        const isUnary = this.shiftMode ? this.operator?.unary.shift : this.operator?.unary.normal;
+        const isUnary = this.isOperatorUnary();
         
         if((label == "-" || label == "+") && this.handleFirstOperandSign(label))
             return;
@@ -45,11 +57,11 @@ export class Calculator{
         }
 
         this.operator = opKey;
-        this.updateDisplayValue(label);
+        this.updateDisplayValue(mapOperatorForDisplay(label));
     }
 
     handleFirstOperandSign(label){
-        if(this.first.value!=null) return false;
+        if(this.first.value!=="") return false;
 
         if(this.first.isSignUsed){
             this.displayError = "Lančanje predznaka broja nije dozvoljeno";
@@ -65,7 +77,7 @@ export class Calculator{
 
     handleSecondOperandSign(label){
 
-        if(!this.operator || this.second.value!=null) return false;
+        if(!this.operator || this.second.value!=="") return false;
 
         if (this.second.isSignUsed) {
             this.displayError = "Lančanje predznaka broja nije dozvoljeno";
@@ -83,17 +95,17 @@ export class Calculator{
     }
 
     equals(){
-        if(this.first.value==null){
+        if(this.first.value===""){
             this.displayError="Ne postoji niti jedan operand";
             return;
         }
 
-        if(this.operator==null)
+        if(this.operator==="")
             return;
             
-        const isUnary= this.shiftMode ? this.operator.unary.shift : this.operator.unary.normal;
+        const isUnary= this.isOperatorUnary();
 
-        if(!isUnary && this.second.value==null){
+        if(!isUnary && this.second.value===""){
             this.displayError="Nedostaje drugi operand";
             return;
         }
@@ -103,25 +115,44 @@ export class Calculator{
 
 
     handleOperationResult(isUnary){
+
+        const firstNum= toNumberSafe(this.first.value,this.first.sign);
+        if(firstNum==null)
+            this.displayError="Operand nije validan broj";
+
+        const secondNum= toNumberSafe(this.second.value,this.second.sign);
+        if(secondNum==null)
+            this.displayError="Operand nije validan broj";
+
         const keyFunction= this.shiftMode ? this.operator.func.shift : this.operator.func.normal;
-        const result= isUnary ? keyFunction(this.first.value) : keyFunction(this.first.value,this.second.value);
+        const result= isUnary ? keyFunction(firstNum) : keyFunction(firstNum,secondNum);
             
         this.displayValue=String(result);
 
-        console.log("Operand1: ",this.first.value);
+        console.log("Operand1: ",firstNum);
         console.log("Operator: ",this.operator);
-        console.log("Operand2: ",this.second.value);
+        console.log("Operand2: ",secondNum);
 
 
-        this.first.value=result;
+        this.first.value=this.displayValue;
 
-        this.second.value=null;
+        this.reset();
+    }
+
+    reset(){
+        this.second.value="";
         this.second.sign=1;
+        this.second.isSignUsed=false;
 
         this.operator=null;
 
         this.displayError=null;
     }
+
+    isOperatorUnary(){
+        return this.shiftMode ? this.operator?.unary.shift : this.operator?.unary.normal;
+    }
+
 
 
 }

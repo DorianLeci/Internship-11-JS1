@@ -22,7 +22,11 @@ export class CalculatorUI{
 
                 case "operation":
                     btn.textContent= this.calculator.shiftMode ? key.label.shift : key.label.normal;
-                    btn.classList.add("button--orange");   
+                    btn.classList.add("button--orange");  
+
+                    if(["÷","×"].includes(btn.textContent))
+                        btn.classList.add("button--operator"); 
+                    
                     break;
                     
                 case "equals":
