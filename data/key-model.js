@@ -33,6 +33,7 @@ class ActionKey{
 
 export const keys=[
 
+    new NumKey("0"),
     new NumKey("1"),
     new NumKey("2"),
     new NumKey("3"),
