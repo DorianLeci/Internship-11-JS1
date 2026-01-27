@@ -26,7 +26,7 @@ export class CalculatorUI{
 
                     if(["÷","×"].includes(btn.textContent))
                         btn.classList.add("button--operator"); 
-                    
+
                     break;
                     
                 case "equals":
@@ -76,7 +76,6 @@ export class CalculatorUI{
         this.displayValueEl.textContent=this.calculator.displayValue;
 
         this.displayErrorEl.textContent=this.calculator.displayError;
-
     }
 }
 

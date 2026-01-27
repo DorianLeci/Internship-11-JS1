@@ -31,10 +31,13 @@ body{
 .display__value{
     color: white;
     font-size: 40px;
-    font-weight: 600;
+    font-weight: 300;
     word-break: break-word;
 }
 
+.display__value.result{
+    font-weight: 700;
+}
 
 .display__error{
     min-height: 36px;
@@ -104,5 +107,7 @@ button{
 .button--operator{
     font-size: 32px;
 }
+
+
 
 

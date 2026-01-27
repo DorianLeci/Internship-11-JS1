@@ -1,4 +1,4 @@
-import { factorial } from "../helpers/helpers.js";
+import { factorial } from "../helpers/mathHelpers.js";
 
 class Dual{
     constructor(normal,shift){
