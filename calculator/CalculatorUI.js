@@ -14,8 +14,11 @@ export class CalculatorUI{
             const btn=document.createElement("button");
             if(key.type=="number")
                 btn.textContent=key.value;
-            else
-                btn.textContent=key.label.normal;
+            else if(key.type=="operation")
+                btn.textContent= this.calculator.shiftMode ? key.label.shift : key.label.normal;
+
+            else if(key.type=="action")
+                btn.textContent=key.label;
 
             this.buttonsContainer.appendChild(btn);
 
@@ -26,10 +29,19 @@ export class CalculatorUI{
 
     handleKey(key){
         if(key.type=="number")
-            this.calculator.inputNumber(key.value);
+            this.calculator.inputNumber(key);
 
         if(key.type=="operation")
-            this.calculator.inputOperator(key.label.normal);
+            this.calculator.inputOperator(key);
+
+        if(key.type=="action"){
+
+            switch (key.actionType){
+                case "equals":
+                    this.calculator.equals();
+            }
+        }
+
 
         this.displayContainer.textContent=this.calculator.displayValue;
     }

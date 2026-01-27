@@ -1,5 +1,12 @@
 import { factorial } from "../helpers/helpers.js";
 
+class Dual{
+    constructor(normal,shift){
+        this.normal=normal;
+        this.shift=shift;
+    }
+}
+
 class NumKey{
     constructor (value){
         this.type="number";
@@ -8,11 +15,11 @@ class NumKey{
 }
 
 class OpKey{
-    constructor(normalLabel,shiftLabel,normalFunc,shiftFunc){
+    constructor(normalLabel,shiftLabel,normalFunc,shiftFunc,normalUnary,shiftUnary){
         this.type="operation";
-        this.label={normal: normalLabel, shift: shiftLabel};
-        this.normalFunction=normalFunc;
-        this.shiftFunction=shiftFunc;
+        this.label=new Dual(normalLabel,shiftLabel);
+        this.func=new Dual(normalFunc,shiftFunc);
+        this.unary = new Dual(normalUnary,shiftUnary);
     }
 }
 
@@ -20,7 +27,7 @@ class ActionKey{
     constructor(actionType,label){
         this.type="action";
         this.actionType=actionType;
-        this.label={normal: label, shift: label};
+        this.label=label;
     }
 }
 
@@ -36,11 +43,11 @@ export const keys=[
     new NumKey("8"),
     new NumKey("9"),
 
-    new OpKey("+","!",(a,b)=>a+b,a=>factorial(a)),
-    new OpKey("-","x³",(a,b)=>a-b,a=>a*a*a),
-    new OpKey("x","log",(a,b)=>a*b,a=>Math.log10(a)),
-    new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a)),
-    new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a)),
+    new OpKey("+","!",(a,b)=>a+b,a=>factorial(a),false,true),
+    new OpKey("-","x³",(a,b)=>a-b,a=>a*a*a,false,true),
+    new OpKey("x","log",(a,b)=>a*b,a=>Math.log10(a),false,true),
+    new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a),false,true),
+    new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a),true,true),
 
     new ActionKey("equals","="),
     new ActionKey("clear","C"),
