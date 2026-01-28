@@ -19,8 +19,30 @@ class OperatorState{
         return this.shiftMode ? this.operator?.unary.shift : this.operator?.unary.normal;
     }
 
+    isOperatorPrefix(){
+        const position=this.shiftMode ? this.operator?.position.shift : this.operator?.position.normal;
+
+        return position=="prefix";
+    }
+
+    isInputtedOperatorUnary(opKey){
+        return this.shiftMode ? opKey?.unary.shift : opKey?.unary.normal;        
+    }
+
+    getInputtedOperatorPosition(opKey){
+        return this.shiftMode ? opKey?.position.shift : opKey?.position.normal;
+    }
+
     getOperatorLabel(){
         return this.shiftMode ? this.operator?.label.shift : this.operator?.label.normal;
+    }
+
+    getInputtedOperatorLabel(opKey){
+        return this.shiftMode ? opKey?.label.shift : opKey?.label.normal;          
+    }
+
+    getKeyFunction(){
+        return this.shiftMode ? this.operator?.func.shift : this.operator?.func.normal;
     }
 
     reset(){
@@ -42,12 +64,14 @@ export class Calculator{
         const value=numKey.value;
         const target=this.operatorState.operator==null ? this.first: this.second;
 
-        if(this.operatorState.operator && this.first.value==""){
+        const isOperatorPrefix=this.operatorState.isOperatorPrefix();
+
+        if(this.operatorState.operator && !isOperatorPrefix && this.first.value==""){
             this.displayError=ErrorMessages.NO_OPERAND_BEFORE;
             return;
         }
 
-        if(this.operatorState.isOperatorUnary()){
+        if(this.operatorState.isOperatorUnary() && !isOperatorPrefix){
             this.displayError=ErrorMessages.UNARY_AFTER_OPERAND;
             return;
         }
@@ -61,15 +85,20 @@ export class Calculator{
 
         this.updateDisplayValue(numKey.value);
         this.displayError="";
-
-
     }
 
     inputOperator(opKey){
 
         const label = this.shiftMode ? opKey.label.shift : opKey.label.normal;
-        const isUnary = this.operatorState.isOperatorUnary();
+        const isUnary=this.operatorState.isInputtedOperatorUnary(opKey);
+
+        console.log(this.operatorState.getInputtedOperatorPosition(opKey));
         
+        if(isUnary && this.operatorState.getInputtedOperatorPosition(opKey)=="prefix"){
+            this.handlePrefixUnary(opKey);
+            return;
+        }
+
         if((label == "-" || label == "+") && this.handleFirstOperandSign(label))
             return;
 
@@ -81,8 +110,8 @@ export class Calculator{
             return;
         }
 
-        this.operatorState.operator = opKey;
-        this.updateDisplayValue(mapOperatorForDisplay(label));
+        this.saveOperator(opKey);
+        this.displayError="";
     }
 
     handleFirstOperandSign(label){
@@ -119,8 +148,21 @@ export class Calculator{
         this.displayValue+=newInput;
     }
 
+    handlePrefixUnary(opKey){
+        if(this.first.value!==""){
+            this.displayError=ErrorMessages.UNARY_POSITION(this.operatorState.getInputtedOperatorLabel(opKey));
+            return;
+        }
+        this.saveOperator(opKey);
+    }
+
+    saveOperator(opKey){       
+        this.operatorState.operator = opKey;
+        this.updateDisplayValue(mapOperatorForDisplay(this.operatorState.getOperatorLabel())); 
+    }
+
     equals(){
-        if(this.first.value===""){
+        if(!this.operatorState.isOperatorPrefix() && this.first.value===""){
             this.displayError=ErrorMessages.NO_OPERAND;
             return;
         }
@@ -156,7 +198,7 @@ export class Calculator{
             return;
         }
 
-        const keyFunction= this.shiftMode ? this.operatorState.operator.func.shift : this.operatorState.operator.func.normal;
+        const keyFunction=this.operatorState.getKeyFunction();
         const result= isUnary ? keyFunction(firstNum) : keyFunction(firstNum,secondNum);
             
         this.displayValue=String(result);

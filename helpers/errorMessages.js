@@ -11,6 +11,10 @@ export class ErrorMessages {
     static CHAINING_SIGN = "Ulančavanje predznaka broja nije dozvoljeno";
 
     static UNARY_AFTER_OPERAND = "Zabranjeno dodavanje operanada iza unarnog operatora";
+
+    static UNARY_POSITION (label){
+        return `Unarni operator ${label} mora biti dodan prije operanda`;
+    }
     
     static NO_OPERAND_BEFORE="Ne možeš dodati prvi operand tek iza operatora";
 

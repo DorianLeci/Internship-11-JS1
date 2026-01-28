@@ -15,11 +15,12 @@ class NumKey{
 }
 
 class OpKey{
-    constructor(normalLabel,shiftLabel,normalFunc,shiftFunc,normalUnary,shiftUnary){
+    constructor(normalLabel,shiftLabel,normalFunc,shiftFunc,normalUnary,shiftUnary,normalPosition,shiftPosition){
         this.type="operation";
         this.label=new Dual(normalLabel,shiftLabel);
         this.func=new Dual(normalFunc,shiftFunc);
         this.unary = new Dual(normalUnary,shiftUnary);
+        this.position=new Dual(normalPosition,shiftPosition);
     }
 }
 
@@ -41,19 +42,19 @@ class EqualsKey{
 export const keys=[
 
     new ActionKey("clear","C"),
-    new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a),false,true),
-    new OpKey("×","log",(a,b)=>a*b,a=>Math.log10(a),false,true),
-    new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a),true,true),
+    new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a),false,true,null,"prefix"),
+    new OpKey("×","log",(a,b)=>a*b,a=>Math.log10(a),false,true,null,"prefix"),
+    new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a),true,true,"postfix","prefix"),
 
     new NumKey("7"),
     new NumKey("8"),
     new NumKey("9"),
-    new OpKey("-", "x³", (a,b)=>a-b, a=>a*a*a, false, true),
+    new OpKey("-", "x³", (a,b)=>a-b, a=>a*a*a, false, true,null,"postfix"),
 
     new NumKey("4"),
     new NumKey("5"),
     new NumKey("6"),
-    new OpKey("+","!", (a,b)=>a+b, a=>factorial(a), false, true),
+    new OpKey("+","!", (a,b)=>a+b, a=>factorial(a), false, true,null,"postfix"),
 
     new NumKey("1"),
     new NumKey("2"),
