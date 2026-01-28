@@ -1,4 +1,6 @@
-import { factorial } from "../helpers/mathHelpers.js";
+import { factorial } from "../helpers/MathHelpers.js";
+import { Position } from "../enums/PositionEnum.js";
+import { KeyType } from "../enums/KeyType.js";
 
 class Dual{
     constructor(normal,shift){
@@ -7,16 +9,23 @@ class Dual{
     }
 }
 
-class NumKey{
+class Key{
+    constructor(type){
+        this.type=type;
+        this.domElement=null;
+    }
+}
+
+class NumKey extends Key{
     constructor (value){
-        this.type="number";
+        super(KeyType.NUMBER);
         this.value=value;
     }
 }
 
-class OpKey{
+class OpKey extends Key{
     constructor(normalLabel,shiftLabel,normalFunc,shiftFunc,normalUnary,shiftUnary,normalPosition,shiftPosition){
-        this.type="operation";
+        super(KeyType.OPERATOR);
         this.label=new Dual(normalLabel,shiftLabel);
         this.func=new Dual(normalFunc,shiftFunc);
         this.unary = new Dual(normalUnary,shiftUnary);
@@ -24,17 +33,17 @@ class OpKey{
     }
 }
 
-class ActionKey{
+class ActionKey extends Key{
     constructor(actionType,label){
-        this.type="action";
+        super(KeyType.ACTION);
         this.actionType=actionType;
         this.label=label;
     }
 }
 
-class EqualsKey{
+class EqualsKey extends Key{
     constructor(){
-        this.type="equals";
+        super(KeyType.EQUALS);
         this.label="=";
     }
 }
@@ -42,19 +51,19 @@ class EqualsKey{
 export const keys=[
 
     new ActionKey("clear","C"),
-    new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a),false,true,null,"prefix"),
-    new OpKey("×","log",(a,b)=>a*b,a=>Math.log10(a),false,true,null,"prefix"),
-    new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a),true,true,"postfix","prefix"),
+    new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a),false,true,Position.INFIX,Position.PREFIX),
+    new OpKey("×","log",(a,b)=>a*b,a=>Math.log10(a),false,true,Position.INFIX,Position.PREFIX),
+    new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a),true,true,Position.POSTFIX,Position.PREFIX),
 
     new NumKey("7"),
     new NumKey("8"),
     new NumKey("9"),
-    new OpKey("-", "x³", (a,b)=>a-b, a=>a*a*a, false, true,null,"postfix"),
+    new OpKey("-", "x³", (a,b)=>a-b, a=>a*a*a, false, true,Position.INFIX,Position.POSTFIX),
 
     new NumKey("4"),
     new NumKey("5"),
     new NumKey("6"),
-    new OpKey("+","!", (a,b)=>a+b, a=>factorial(a), false, true,null,"postfix"),
+    new OpKey("+","!", (a,b)=>a+b, a=>factorial(a), false, true,Position.INFIX,Position.POSTFIX),
 
     new NumKey("1"),
     new NumKey("2"),

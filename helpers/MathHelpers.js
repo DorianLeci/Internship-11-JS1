@@ -1,16 +1,16 @@
-import { ErrorMessages } from "./errorMessages.js";
+import { ErrorMessages } from "./ErrorMessages.js";
 
 export function factorial(n){
     let res=1;
 
-    for(let i=1;i<n;i++)
+    for(let i=1;i<=n;i++)
         res*=i;
 
     return res;
 }
 
-export function toNumberSafe(string,sign){
-    const number=Number(string)*sign;
+export function toNumberSafe(string){
+    const number=Number(string);
 
     if(isNaN(number)) return null;
 
@@ -34,7 +34,7 @@ export function checkOperationEdgeCases(operatorLabel, firstNum, secondNum, isUn
             break;
 
             case "!":
-                if(firstNum<0 && !Number.isInteger(firstNum))
+                if(firstNum<0 || !Number.isInteger(firstNum))
                     return ErrorMessages.NEGATIVE_FACTORIAL;
             break;
 
