@@ -46,3 +46,18 @@ export function checkOperationEdgeCases(operatorLabel, firstNum, secondNum, isUn
     }
     return null;
 }
+
+export function formatNumberForDisplay(value){
+
+    if(value==Infinity) return "∞";
+    if(value==-Infinity) return "-∞";
+
+    const absValue = Math.abs(value);
+
+    if ((absValue !== 0 && (absValue >= 1e7 || absValue < 1e-3))) {
+        return value.toExponential(8);
+    }
+
+    const factor = Math.pow(10, 8);
+    return Math.round(value * factor) / factor;
+}

@@ -1,8 +1,10 @@
-import { toNumberSafe,mapOperatorForDisplay,checkOperationEdgeCases } from "../helpers/MathHelpers.js";
+import { toNumberSafe,mapOperatorForDisplay,checkOperationEdgeCases, formatNumberForDisplay } from "../helpers/MathHelpers.js";
 import { ErrorMessages } from "../helpers/ErrorMessages.js";
 import { OperatorState } from "./OperatorState.js";
 import { Operand } from "./Operand.js";
 import { Position } from "../enums/PositionEnum.js";
+import { OperatorType } from "../enums/OperatorType.js";
+
 
 export class Calculator{
     constructor(){
@@ -16,12 +18,17 @@ export class Calculator{
     inputNumber(numKey){
         const value=numKey.value;
         const isOperatorPrefix=this.operatorState.isSnapshotPrefix();
+        const operator = this.operatorState.operator;
 
-        console.log("Is operator prefix: ",isOperatorPrefix);
 
-        const target=(this.operatorState.operator==null || isOperatorPrefix) ? this.first: this.second;
+        if (operator?.unary && operator.position == Position.POSTFIX) {
+            this.displayError = ErrorMessages.UNARY_AFTER_OPERAND;
+            return;
+        }
 
-        if(this.operatorState.operator && !isOperatorPrefix && this.first.value==""){
+        const target = (!operator || isOperatorPrefix) ? this.first : this.second;
+
+        if(operator && !isOperatorPrefix && this.first.value==""){
             this.displayError=ErrorMessages.NO_OPERAND_BEFORE;
             return;
         }
@@ -43,10 +50,10 @@ export class Calculator{
         const isUnary=this.operatorState.isUnary(opKey);
         const isPrefix=this.operatorState.isPrefix(opKey);
         
-        if((label == "-" || label == "+") && this.handleFirstOperandSign(label))
+        if((label == OperatorType.ADDITION || label == OperatorType.SUBTRACTION) && this.handleFirstOperandSign(label))
             return;
 
-        if(!isUnary && (label == "-" || label == "+") && this.handleSecondOperandSign(label))
+        if(!isUnary && (label == OperatorType.ADDITION || label == OperatorType.SUBTRACTION) && this.handleSecondOperandSign(label))
             return;
 
         if(this.operatorState.operator){
@@ -65,7 +72,9 @@ export class Calculator{
 
     handleFirstOperandSign(label){
 
-        if (this.first.value!=="" && this.first.value !== "-" && this.first.value !== "+") return false;
+        if (this.first.value!=="" 
+            && this.first.value !== OperatorType.SUBTRACTION 
+            && this.first.value !== OperatorType.ADDITION) return false;
 
         if(this.first.isSignUsed){
             this.displayError = ErrorMessages.CHAINING_SIGN;
@@ -91,7 +100,9 @@ export class Calculator{
             return true;
         }
 
-        if (this.second.value!=="" && this.second.value !== "-" && this.second.value !== "+") return false;
+        if (this.second.value!=="" 
+            && this.second.value !== OperatorType.SUBTRACTION 
+            && this.second.value !== OperatorType.ADDITION) return false;
 
         if (this.second.isSignUsed) {
             this.displayError = ErrorMessages.CHAINING_SIGN;
@@ -129,7 +140,6 @@ export class Calculator{
             position: opPosition
         };
 
-        console.log("Novi operator: ",newOperator.label);
         this.updateDisplayValue(mapOperatorForDisplay(newOperator.label)); 
     }
 
@@ -137,49 +147,66 @@ export class Calculator{
 
         if(this.first.value===""){
             this.displayError=ErrorMessages.NO_OPERAND;
-            return;
+            return false;
         }
 
-        if(!this.operatorState.operator)
-            return;
+        if(!this.operatorState.operator){
+            this.operatorState.operator={
+                label: "identity",
+                unary: true,
+                function: (x)=>x
+            };
+        }
             
         const isUnary= this.operatorState.operator.unary;
 
         if(this.operatorState.operator && !isUnary && this.second.value===""){
             this.displayError=ErrorMessages.MISSING_SECOND_OPERAND;
-            return;
+            return false;
         }
 
-        this.handleOperationResult(isUnary);
+        const result=this.handleOperationResult(isUnary);
+
+        if (result==null)
+            return false;
+
+        this.displayResultAndReset(result);
+        return true;
     }
 
 
     handleOperationResult(isUnary){
 
         const firstNum= toNumberSafe(this.first.value);
-        if(firstNum==null)
+        if(firstNum==null){
             this.displayError=ErrorMessages.INVALID_OPERAND;
+            return null;
+        }
 
         const secondNum= toNumberSafe(this.second.value);
-        if(secondNum==null)
+        if(secondNum==null){
             this.displayError=ErrorMessages.INVALID_OPERAND;
+            return null;
+        }
 
         const edgeCaseError=checkOperationEdgeCases(this.operatorState.operator.label,firstNum,secondNum,isUnary);
 
         if(edgeCaseError){
             this.displayError=edgeCaseError;
-            return;
+            return null;
         }
 
-        console.clear();
-        console.log("First: ",firstNum);
-        console.log("Scond: ",secondNum);
-        console.log("Operator: ",this.operatorState.operator.label);
         const keyFunction=this.operatorState.operator.function;
 
         const result= isUnary ? keyFunction(firstNum) : keyFunction(firstNum,secondNum);
+
+        return result;
             
-        this.displayValue=String(result);
+    }
+
+    displayResultAndReset(result){
+
+        this.displayValue=formatNumberForDisplay(result);
         this.first.value=this.displayValue;
 
         this.reset();

@@ -1,6 +1,7 @@
 import { factorial } from "../helpers/MathHelpers.js";
 import { Position } from "../enums/PositionEnum.js";
 import { KeyType } from "../enums/KeyType.js";
+import { OperatorType } from "../enums/OperatorType.js";
 
 class Dual{
     constructor(normal,shift){
@@ -50,28 +51,29 @@ class EqualsKey extends Key{
 
 export const keys=[
 
+    new ActionKey("power","ON"),
     new ActionKey("clear","C"),
-    new OpKey("÷","√",(a,b)=>a/b,a=>Math.sqrt(a),false,true,Position.INFIX,Position.PREFIX),
-    new OpKey("×","log",(a,b)=>a*b,a=>Math.log10(a),false,true,Position.INFIX,Position.PREFIX),
-    new OpKey("x²","∛",a=>a*a,a=>Math.cbrt(a),true,true,Position.POSTFIX,Position.PREFIX),
+    new ActionKey("shift","Shift"),
+    new OpKey(OperatorType.X_SQUARED,OperatorType.CBRT,a=>a*a,a=>Math.cbrt(a),true,true,Position.POSTFIX,Position.PREFIX),    
 
     new NumKey("7"),
     new NumKey("8"),
     new NumKey("9"),
-    new OpKey("-", "x³", (a,b)=>a-b, a=>a*a*a, false, true,Position.INFIX,Position.POSTFIX),
+    new OpKey(OperatorType.DIVISION,OperatorType.SQRT,(a,b)=>a/b,a=>Math.sqrt(a),false,true,Position.INFIX,Position.PREFIX),        
 
     new NumKey("4"),
     new NumKey("5"),
     new NumKey("6"),
-    new OpKey("+","!", (a,b)=>a+b, a=>factorial(a), false, true,Position.INFIX,Position.POSTFIX),
+    new OpKey(OperatorType.MULTIPLICATION,OperatorType.LOGARITHM,(a,b)=>a*b,a=>Math.log10(a),false,true,Position.INFIX,Position.PREFIX),
 
     new NumKey("1"),
     new NumKey("2"),
     new NumKey("3"),
-    new EqualsKey(),
+    new OpKey(OperatorType.SUBTRACTION,OperatorType.X_SQUARED, (a,b)=>a-b, a=>a*a*a, false, true,Position.INFIX,Position.POSTFIX),
 
     new NumKey("0"),
     new NumKey("."),
-    new ActionKey("shift","Shift"),
-    new ActionKey("delete","Del"),
+    new EqualsKey(),
+    new OpKey(OperatorType.ADDITION,OperatorType.FACTORIAL, (a,b)=>a+b, a=>factorial(a), false, true,Position.INFIX,Position.POSTFIX),
+
 ]

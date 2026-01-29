@@ -1,5 +1,6 @@
 import { KeyType } from "../enums/KeyType.js";
 import { Calculator } from "./Calculator.js";
+import { OperatorType } from "../enums/OperatorType.js";
 
 export class CalculatorUI{
     constructor(displayContainer,buttonsContainer,keys){
@@ -8,12 +9,14 @@ export class CalculatorUI{
         this.buttonsContainer=buttonsContainer;
         this.keys=keys;
         this.calculator=new Calculator();
+        this.initialFont=window.getComputedStyle(this.displayValueEl).fontSize;
     }
 
     createButtons(){
         this.keys.forEach(key=>{
 
             const btn=document.createElement("button");
+            btn.classList.add("calculator__button");
 
             switch (key.type){
                 case KeyType.NUMBER:
@@ -25,8 +28,8 @@ export class CalculatorUI{
                     btn.textContent= this.calculator.shiftMode ? key.label.shift : key.label.normal;
                     btn.classList.add("button--orange");  
 
-                    if(["÷","×"].includes(btn.textContent))
-                        btn.classList.add("button--operator"); 
+                    if([OperatorType.DIVISION,OperatorType.MULTIPLICATION].includes(btn.textContent))
+                        btn.classList.add("button--small"); 
 
                     break;
                     
@@ -55,10 +58,12 @@ export class CalculatorUI{
         switch (key.type){
             case KeyType.NUMBER:
                 this.calculator.inputNumber(key);
+                this.adjustFontSize(this.displayValueEl);
                 break;
 
             case KeyType.OPERATOR:
                 this.calculator.inputOperator(key);
+                this.adjustFontSize(this.displayValueEl);                
                 break;
 
             case KeyType.ACTION:
@@ -66,7 +71,8 @@ export class CalculatorUI{
                 break;
 
             case KeyType.EQUALS:
-                this.calculator.equals();
+                if(this.calculator.equals()==true)
+                    this.resetFont();
                 break;
         }
 
@@ -82,10 +88,22 @@ export class CalculatorUI{
         this.displayErrorEl.textContent=this.calculator.displayError;
     }
 
+    adjustFontSize(element, minFont = 12, maxFont = 40) {
+
+        let fontSize = parseInt(window.getComputedStyle(element).fontSize);
+
+        if(element.scrollWidth>element.clientWidth && fontSize>minFont)
+            element.style.fontSize=(fontSize-1)+"px";
+
+        else if(element.scrollWidth<element.clientWidth && fontSize<maxFont)
+            element.style.fontSize=(fontSize+1)+"px";
+    }
+
     handleActionKey(key){
         switch (key.actionType) {
             case "clear":
                 this.calculator.clearAll();
+                this.resetFont();
                 break;
             case "shift":
                 this.calculator.operatorState.toggleShiftMode();
@@ -104,8 +122,24 @@ export class CalculatorUI{
             if(!key.domElement) return;
             const label=this.calculator.operatorState.getLabel(key);
 
+            this.updateClass(key,label);
+
             key.domElement.textContent=label;
         });
+    }
+
+    updateClass(key,label){
+
+        if([OperatorType.LOGARITHM,OperatorType.SQRT].includes(label)){
+            key.domElement.classList.remove("button--small");
+        }
+            
+        if([OperatorType.DIVISION,OperatorType.MULTIPLICATION].includes(label))
+            key.domElement.classList.add("button--small");
+    }
+
+    resetFont(){
+        this.displayValueEl.style.fontSize=this.initialFont;
     }
 }    
 

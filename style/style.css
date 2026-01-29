@@ -1,38 +1,51 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-body{
+:root{
+    --app-width: 400px;
+}
+
+.body__wrapper{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    height: 100vh;
+    padding: 0px 20px;
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
 }
 
 .calculator{
     width: 100%;
-    max-width:500px;
+    max-width:var(--app-width);
+    height: fit-content;
     background-color: hsl(0,0%,15%);
     border-radius: 15px;
     overflow: hidden;
 }
 
 .display{
-    height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 16px;
+    min-height: 100px;
+    max-height: 150px;
     padding: 20px;
     background-color: hsl(0,0%,20%);
+    overflow-x: scroll;
 }
 
 .display__value{
+    display: flex;   
+    align-items: center;  
+    height:40px;
     color: white;
     font-size: 40px;
-    font-weight: 300;
-    word-break: break-word;
+    font-weight: 400;
+    white-space: nowrap;
 }
 
 .display__value.result{
@@ -40,7 +53,10 @@ body{
 }
 
 .display__error{
-    min-height: 36px;
+    display: flex;   
+    align-items: center;
+    justify-content: center;   
+    height: 36px;
     color: #ff5555; 
     font-size: 16px;
     text-align: center;
@@ -60,9 +76,9 @@ body{
     padding: 25px 10px;
 }
 
-button{
-    width: 70px;
-    height: 70px;
+.calculator__button{
+    width: 100%;
+    aspect-ratio: 1;
     border-radius: 50%;
     border: none;
     font-size: 24px;
@@ -104,9 +120,14 @@ button{
     background-color:  hsl(109, 83%, 65%);
 }
 
-.button--operator{
+.button--small{
     font-size: 32px;
 }
+
+.button--big{
+    font-size: 24px;
+}
+
 
 
 

@@ -13,7 +13,7 @@ export class ErrorMessages {
     static UNARY_AFTER_OPERAND = "Zabranjeno dodavanje operanada iza unarnog operatora";
 
     static UNARY_POSITION (label){
-        return `Unarni operator ${label} mora biti dodan prije operanda`;
+        return `Unarni operator "${label}" mora biti dodan prije operanda`;
     }
     
     static NO_OPERAND_BEFORE="Ne možeš dodati prvi operand tek iza operatora";
