@@ -22,7 +22,7 @@
     transition: background-color 0.3s ease
 }
 
-.button--power-off,
+.buttons--off .calculator__button,
 .button--dark{
      background-color: var(--buton-dark-grey);
 }
@@ -40,7 +40,7 @@
     background-color: var(--button-green);
 }
 
-.button--power-off:hover,
+.buttons--off .calculator__button:hover,
 .button--dark:hover{
     background-color: hsl(0,0%,50%);
 }
