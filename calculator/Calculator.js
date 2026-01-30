@@ -4,6 +4,7 @@ import { OperatorState } from "./OperatorState.js";
 import { Operand } from "./Operand.js";
 import { Position } from "../enums/PositionEnum.js";
 import { OperatorType } from "../enums/OperatorType.js";
+import { History } from "../history/History.js";
 
 
 export class Calculator{
@@ -11,8 +12,10 @@ export class Calculator{
         this.first=new Operand();
         this.second=new Operand();
         this.operatorState=new OperatorState();
+        this.history=new History();
         this.displayValue="";
         this.displayError="";
+        this.isOn=true;
     }
 
     inputNumber(numKey){
@@ -152,7 +155,7 @@ export class Calculator{
 
         if(!this.operatorState.operator){
             this.operatorState.operator={
-                label: "identity",
+                label: OperatorType.IDENTITY,
                 unary: true,
                 function: (x)=>x
             };
@@ -206,11 +209,18 @@ export class Calculator{
 
     displayResultAndReset(result){
 
-        this.displayValue=formatNumberForDisplay(result);
+        const formattedNumber=formatNumberForDisplay(result);
+
+        this.history.addEntry(this.displayValue,formattedNumber);
+
+        this.displayValue=formattedNumber;
+
+        console.log("Display value: ",this.displayValue);
         this.first.value=this.displayValue;
 
         this.reset();
     }
+
 
     reset(resetFirst=false){
 
@@ -224,13 +234,22 @@ export class Calculator{
 
         this.operatorState.reset();
 
-        this.displayError=null;
+        this.displayError="";
     }
 
     clearAll(){
         this.reset(true);
 
         this.displayValue="";
+    }
+
+    togglePower(){
+        this.isOn=!this.isOn;
+
+        if(!this.isOn){
+            this.clearAll();
+            this.history.clear();
+        }
     }
 
 }

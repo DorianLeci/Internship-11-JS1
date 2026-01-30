@@ -40,7 +40,7 @@ export class CalculatorUI{
                     
                 case KeyType.ACTION:
                     btn.textContent= key.label;
-                    btn.classList.add("button--red"); 
+                    key.actionType=="power" ? btn.classList.add("button--power-on") : btn.classList.add("button--red"); 
                     break;                   
             }
 
@@ -54,6 +54,8 @@ export class CalculatorUI{
     }
 
     handleKey(key){
+
+        if(!this.calculator.isOn && key.actionType!="power") return;
 
         switch (key.type){
             case KeyType.NUMBER:
@@ -109,6 +111,12 @@ export class CalculatorUI{
                 this.calculator.operatorState.toggleShiftMode();
                 this.updateOperationKeys();
                 break;
+
+            case "power":
+                this.calculator.togglePower();
+                this.handlePowerSwitch(key);
+                break;
+
             default:
                 break;
         }
@@ -140,6 +148,15 @@ export class CalculatorUI{
 
     resetFont(){
         this.displayValueEl.style.fontSize=this.initialFont;
+    }
+
+    handlePowerSwitch(key){
+        key.domElement.classList.toggle("button--power-on",this.calculator.isOn);
+        key.domElement.classList.toggle("button--power-off",!this.calculator.isOn);
+
+        this.displayValueEl.parentElement.classList.toggle("display--off",!this.calculator.isOn);
+
+        key.domElement.textContent= this.calculator.isOn ? "ON" : "OFF";
     }
 }    
 

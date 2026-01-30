@@ -6,6 +6,9 @@
 
 :root{
     --app-width: 400px;
+    --button-green: hsl(109, 83%, 35%);
+    --button-red: hsl(9, 94%, 47%);
+    --buton-dark-grey: hsl(0,0%,30%);
 }
 
 .body__wrapper{
@@ -36,6 +39,12 @@
     padding: 20px;
     background-color: hsl(0,0%,20%);
     overflow-x: scroll;
+    transition: background-color 0.3s ease;
+}
+
+.display--off{
+    background-color: hsl(0,0%,10%);
+    transition: background-color 0.3s ease
 }
 
 .display__value{
@@ -88,20 +97,22 @@
     transition: background-color 0.3s ease
 }
 
+.button--power-off,
 .button--dark{
-     background-color: hsl(0,0%,30%);
+     background-color: var(--buton-dark-grey);
 }
 
 .button--red{
-    background-color: hsl(9, 94%, 47%);
+    background-color: var(--button-red);
 }
 
 .button--orange{
     background-color: hsl(43, 94%, 47%);
 }
 
+.button--power-on,
 .button--green{
-    background-color: hsl(109, 83%, 35%);
+    background-color: var(--button-green);
 }
 
 .button--dark:hover{
@@ -116,6 +127,7 @@
     background-color: hsl(43, 80%, 70%);
 }
 
+.button--power-on:hover,
 .button--green:hover{
     background-color:  hsl(109, 83%, 65%);
 }
@@ -127,6 +139,7 @@
 .button--big{
     font-size: 24px;
 }
+
 
 
 

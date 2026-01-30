@@ -59,5 +59,5 @@ export function formatNumberForDisplay(value){
     }
 
     const factor = Math.pow(10, 8);
-    return Math.round(value * factor) / factor;
+    return String(Math.round(value * factor) / factor);
 }

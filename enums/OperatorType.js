@@ -9,6 +9,7 @@ export const OperatorType=Object.freeze(
         SUBTRACTION: "-",
         X_CUBED: "x³",
         ADDITION: "+",
-        FACTORIAL: "!"
+        FACTORIAL: "!",
+        IDENTITY: "x"
     }
 );
