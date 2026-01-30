@@ -3,7 +3,7 @@ import { ErrorMessages } from "../helpers/ErrorMessages.js";
 import { OperatorState } from "./OperatorState.js";
 import { Operand } from "./Operand.js";
 import { Position } from "../enums/PositionEnum.js";
-import { OperatorType } from "../enums/OperatorType.js";
+import { OperatorLabel} from "../enums/OperatorLabel.js";
 import { History } from "../history/History.js";
 
 
@@ -19,6 +19,8 @@ export class Calculator{
     }
 
     inputNumber(numKey){
+        this.displayError="";7
+
         const value=numKey.value;
         const isOperatorPrefix=this.operatorState.isSnapshotPrefix();
         const operator = this.operatorState.operator;
@@ -44,19 +46,19 @@ export class Calculator{
             target.value+=value;
 
         this.updateDisplayValue(numKey.value);
-        this.displayError="";
     }
 
     inputOperator(opKey){
+        this.displayError="";
 
         const label = this.operatorState.getLabel(opKey)
         const isUnary=this.operatorState.isUnary(opKey);
         const isPrefix=this.operatorState.isPrefix(opKey);
         
-        if((label == OperatorType.ADDITION || label == OperatorType.SUBTRACTION) && this.handleFirstOperandSign(label))
+        if((label == OperatorLabel.ADDITION || label == OperatorLabel.SUBTRACTION) && this.handleFirstOperandSign(label))
             return;
 
-        if(!isUnary && (label == OperatorType.ADDITION || label == OperatorType.SUBTRACTION) && this.handleSecondOperandSign(label))
+        if(!isUnary && (label == OperatorLabel.ADDITION || label == OperatorLabel.SUBTRACTION) && this.handleSecondOperandSign(label))
             return;
 
         if(this.operatorState.operator){
@@ -70,14 +72,13 @@ export class Calculator{
         }        
 
         this.saveOperator(opKey);
-        this.displayError="";
     }
 
     handleFirstOperandSign(label){
 
         if (this.first.value!=="" 
-            && this.first.value !== OperatorType.SUBTRACTION 
-            && this.first.value !== OperatorType.ADDITION) return false;
+            && this.first.value !== OperatorLabel.SUBTRACTION 
+            && this.first.value !== OperatorLabel.ADDITION) return false;
 
         if(this.first.isSignUsed){
             this.displayError = ErrorMessages.CHAINING_SIGN;
@@ -104,8 +105,8 @@ export class Calculator{
         }
 
         if (this.second.value!=="" 
-            && this.second.value !== OperatorType.SUBTRACTION 
-            && this.second.value !== OperatorType.ADDITION) return false;
+            && this.second.value !== OperatorLabel.SUBTRACTION 
+            && this.second.value !== OperatorLabel.ADDITION) return false;
 
         if (this.second.isSignUsed) {
             this.displayError = ErrorMessages.CHAINING_SIGN;
@@ -155,9 +156,9 @@ export class Calculator{
 
         if(!this.operatorState.operator){
             this.operatorState.operator={
-                label: OperatorType.IDENTITY,
+                label: OperatorLabel.IDENTITY,
                 unary: true,
-                function: (x)=>x
+                function: (x)=>x,
             };
         }
             
@@ -173,7 +174,6 @@ export class Calculator{
         if (result==null)
             return false;
 
-        this.displayResultAndReset(result);
         return true;
     }
 
@@ -202,20 +202,21 @@ export class Calculator{
         const keyFunction=this.operatorState.operator.function;
 
         const result= isUnary ? keyFunction(firstNum) : keyFunction(firstNum,secondNum);
+        this.displayResultAndReset(firstNum,secondNum,result);
 
         return result;
             
     }
 
-    displayResultAndReset(result){
+    displayResultAndReset(firstNum,secondNum,result){
 
         const formattedNumber=formatNumberForDisplay(result);
 
-        this.history.addEntry(this.displayValue,formattedNumber);
+        console.log("Operator: ",this.operatorState.operator);
+        this.history.addEntry(firstNum,secondNum,this.operatorState.operator,result,this.displayValue);
 
         this.displayValue=formattedNumber;
 
-        console.log("Display value: ",this.displayValue);
         this.first.value=this.displayValue;
 
         this.reset();

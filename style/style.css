@@ -1,26 +1,20 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root{
-    --app-width: 400px;
-    --button-green: hsl(109, 83%, 35%);
-    --button-red: hsl(9, 94%, 47%);
-    --buton-dark-grey: hsl(0,0%,30%);
-}
+@import "./base/variables.css";
+@import "./base/reset.css";
+@import "./calculator_components/history.css";
+@import "./calculator_components/display.css";
+@import "./calculator_components/buttons.css";
 
 .body__wrapper{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     padding: 0px 20px;
     background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
 }
 
 .calculator{
+    position: relative;
     width: 100%;
     max-width:var(--app-width);
     height: fit-content;
@@ -29,116 +23,20 @@
     overflow: hidden;
 }
 
-.display{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 16px;
-    min-height: 100px;
-    max-height: 150px;
-    padding: 20px;
-    background-color: hsl(0,0%,20%);
-    overflow-x: scroll;
-    transition: background-color 0.3s ease;
-}
-
-.display--off{
-    background-color: hsl(0,0%,10%);
-    transition: background-color 0.3s ease
-}
-
-.display__value{
-    display: flex;   
-    align-items: center;  
-    height:40px;
-    color: white;
-    font-size: 40px;
-    font-weight: 400;
-    white-space: nowrap;
-}
-
-.display__value.result{
-    font-weight: 700;
-}
-
-.display__error{
-    display: flex;   
-    align-items: center;
-    justify-content: center;   
-    height: 36px;
-    color: #ff5555; 
-    font-size: 16px;
-    text-align: center;
-    word-break: break-word;
-}
-
-
-.button-wrapper{
-    display: flex;
-    justify-content: center;
-}
-
-.button-container{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 10px;
-    padding: 25px 10px;
-}
-
-.calculator__button{
+.calculator-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: none;
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+    display: none; 
+    z-index: 50;    
 }
 
-.button--power-off,
-.button--dark{
-     background-color: var(--buton-dark-grey);
-}
 
-.button--red{
-    background-color: var(--button-red);
-}
 
-.button--orange{
-    background-color: hsl(43, 94%, 47%);
-}
 
-.button--power-on,
-.button--green{
-    background-color: var(--button-green);
-}
-
-.button--dark:hover{
-    background-color: hsl(0,0%,50%);
-}
-
-.button--red:hover{
-    background-color: hsl(9, 94%, 70%);
-}
-
-.button--orange:hover{
-    background-color: hsl(43, 80%, 70%);
-}
-
-.button--power-on:hover,
-.button--green:hover{
-    background-color:  hsl(109, 83%, 65%);
-}
-
-.button--small{
-    font-size: 32px;
-}
-
-.button--big{
-    font-size: 24px;
-}
 
 
 

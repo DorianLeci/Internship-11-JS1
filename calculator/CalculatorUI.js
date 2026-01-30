@@ -1,6 +1,7 @@
 import { KeyType } from "../enums/KeyType.js";
 import { Calculator } from "./Calculator.js";
-import { OperatorType } from "../enums/OperatorType.js";
+import { OperatorLabel } from "../enums/OperatorLabel.js";
+import { ActionType } from "../enums/ActionType.js";
 
 export class CalculatorUI{
     constructor(displayContainer,buttonsContainer,keys){
@@ -28,7 +29,7 @@ export class CalculatorUI{
                     btn.textContent= this.calculator.shiftMode ? key.label.shift : key.label.normal;
                     btn.classList.add("button--orange");  
 
-                    if([OperatorType.DIVISION,OperatorType.MULTIPLICATION].includes(btn.textContent))
+                    if([OperatorLabel.DIVISION,OperatorLabel.MULTIPLICATION].includes(btn.textContent))
                         btn.classList.add("button--small"); 
 
                     break;
@@ -103,16 +104,16 @@ export class CalculatorUI{
 
     handleActionKey(key){
         switch (key.actionType) {
-            case "clear":
+            case ActionType.CLEAR:
                 this.calculator.clearAll();
                 this.resetFont();
                 break;
-            case "shift":
+            case ActionType.SHIFT:
                 this.calculator.operatorState.toggleShiftMode();
                 this.updateOperationKeys();
                 break;
 
-            case "power":
+            case ActionType.POWER:
                 this.calculator.togglePower();
                 this.handlePowerSwitch(key);
                 break;
@@ -138,11 +139,11 @@ export class CalculatorUI{
 
     updateClass(key,label){
 
-        if([OperatorType.LOGARITHM,OperatorType.SQRT].includes(label)){
+        if([OperatorLabel.LOGARITHM,OperatorLabel.SQRT].includes(label)){
             key.domElement.classList.remove("button--small");
         }
             
-        if([OperatorType.DIVISION,OperatorType.MULTIPLICATION].includes(label))
+        if([OperatorLabel.DIVISION,OperatorLabel.MULTIPLICATION].includes(label))
             key.domElement.classList.add("button--small");
     }
 
@@ -157,6 +158,31 @@ export class CalculatorUI{
         this.displayValueEl.parentElement.classList.toggle("display--off",!this.calculator.isOn);
 
         key.domElement.textContent= this.calculator.isOn ? "ON" : "OFF";
+    }
+
+    addHistoryEventListener(){
+        const historyToggle=document.querySelector(".history-toggle");
+        const historyDropdown=document.querySelector(".history-dropdown");
+        const calculatorOverlay=document.querySelector(".calculator-overlay");
+
+        historyToggle.addEventListener("click",()=>{
+            historyDropdown.classList.toggle("active");
+            calculatorOverlay.classList.toggle("active");
+        });
+    }
+
+    addFilterButtons(){
+        const historyFilters=document.querySelector(".history-filters");
+
+        Object.values(OperatorLabel).forEach(op=>{
+            const newButton=document.createElement("button");
+            newButton.classList.add("history-filter");
+
+            newButton.dataset.filter=op;
+            newButton.textContent=op;
+
+            historyFilters.appendChild(newButton);
+        });
     }
 }    
 

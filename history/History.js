@@ -6,8 +6,8 @@ export class History{
         this.limit=limit;
     }
 
-    addEntry(expression,result){
-        const entry=new HistoryEntry(expression,result);
+    addEntry(first,second,operator,result,displayValue){
+        const entry=new HistoryEntry(first,second,operator,result,displayValue);
 
         const lastEntry=this.entries.at(-1);
 
@@ -19,7 +19,6 @@ export class History{
         if(this.entries.length>this.limit)
             this.entries.shift();
 
-        console.clear();
         this.entries.forEach(entry=>console.log("History: ",entry));
 
     }

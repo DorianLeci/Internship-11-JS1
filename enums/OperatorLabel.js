@@ -1,4 +1,4 @@
-export const OperatorType=Object.freeze(
+export const OperatorLabel=Object.freeze(
     {
         X_SQUARED: "x²",
         CBRT: "∛",

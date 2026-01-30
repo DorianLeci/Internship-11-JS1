@@ -1,0 +1,67 @@
+.button-wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+.button-container{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+    padding: 25px 10px;
+}
+
+.calculator__button{
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease
+}
+
+.button--power-off,
+.button--dark{
+     background-color: var(--buton-dark-grey);
+}
+
+.button--red{
+    background-color: var(--button-red);
+}
+
+.button--orange{
+    background-color: hsl(43, 94%, 47%);
+}
+
+.button--power-on,
+.button--green{
+    background-color: var(--button-green);
+}
+
+.button--power-off:hover,
+.button--dark:hover{
+    background-color: hsl(0,0%,50%);
+}
+
+.button--red:hover{
+    background-color: hsl(9, 94%, 70%);
+}
+
+.button--orange:hover{
+    background-color: hsl(43, 80%, 70%);
+}
+
+.button--power-on:hover,
+.button--green:hover{
+    background-color:  hsl(109, 83%, 45%);
+}
+
+.button--small{
+    font-size: 32px;
+}
+
+.button--big{
+    font-size: 24px;
+}

@@ -1,6 +1,10 @@
 export class HistoryEntry{
-    constructor(expression,result){
-        this.expression=expression;
+    constructor(first,second,operator,result,displayValue){
+        this.first=first;
+        this.second=second;
+        this.operator=operator;
         this.result=result;
+        this.addedAt=new Date();
+        this.expression= displayValue;
     }
 }

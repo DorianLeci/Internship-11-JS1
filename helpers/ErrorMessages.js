@@ -22,6 +22,8 @@ export class ErrorMessages {
 
     static NEGATIVE_FACTORIAL="Faktorijel je definiran samo za nenegativne cijele brojeve";
 
-    static SQRT_NEGATIVE="Kvadratni korijen negativnog broja nije dozvoljen";
+    static SQRT_NEGATIVE="Kvadratni korijen negativnog broja nije definiran za negativne brojeve";
+
+    static LOG_NEGATIVE="Logaritam nije definiran za nulu ili negativne brojeve "
 
 }

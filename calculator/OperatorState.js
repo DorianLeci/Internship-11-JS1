@@ -1,4 +1,3 @@
-import { KeyType } from "../enums/KeyType.js";
 import { Position } from "../enums/PositionEnum.js";
 
 export class OperatorState {

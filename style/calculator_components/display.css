@@ -1,0 +1,42 @@
+.display{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    min-height: 100px;
+    max-height: 150px;
+    padding: 20px;
+    background-color: hsl(0,0%,20%);
+    overflow-x: scroll;
+    transition: background-color 0.3s ease;
+}
+
+.display--off{
+    background-color: hsl(0,0%,10%);
+    transition: background-color 0.3s ease
+}
+
+.display__value{
+    display: flex;   
+    align-items: center;  
+    height:40px;
+    color: white;
+    font-size: 40px;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.display__value.result{
+    font-weight: 700;
+}
+
+.display__error{
+    display: flex;   
+    align-items: center;
+    justify-content: center;   
+    height: 36px;
+    color: #ff5555; 
+    font-size: 16px;
+    text-align: center;
+    word-break: break-word;
+}

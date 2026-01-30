@@ -1,4 +1,5 @@
 import { ErrorMessages } from "./ErrorMessages.js";
+import { OperatorLabel } from "../enums/OperatorLabel.js";
 
 export function factorial(n){
     let res=1;
@@ -19,8 +20,8 @@ export function toNumberSafe(string){
 
 export function mapOperatorForDisplay(label){
     switch (label){
-        case "x²": return "²";
-        case "x³": return "³";
+        case OperatorLabel.X_SQUARED: return "²";
+        case OperatorLabel.X_CUBED: return "³";
         default: return label;
     }
 }
@@ -28,23 +29,30 @@ export function mapOperatorForDisplay(label){
 export function checkOperationEdgeCases(operatorLabel, firstNum, secondNum, isUnary) {
 
     switch (operatorLabel){
-        case "÷":
+        case OperatorLabel.DIVISION:
             if(!isUnary && secondNum==0)
                 return ErrorMessages.DIVIDE_BY_ZERO;
             break;
 
-            case "!":
+            case OperatorLabel.FACTORIAL:
                 if(firstNum<0 || !Number.isInteger(firstNum))
                     return ErrorMessages.NEGATIVE_FACTORIAL;
             break;
 
-            case "√":
+            case OperatorLabel.SQRT:
                 if (firstNum < 0)
                     return ErrorMessages.SQRT_NEGATIVE;
             break;
 
+            case OperatorLabel.LOGARITHM:
+                if(firstNum<=0)
+                    return ErrorMessages.LOG_NEGATIVE;
+            break;
+
+            default:
+                return null;
+
     }
-    return null;
 }
 
 export function formatNumberForDisplay(value){

@@ -6,3 +6,5 @@ const button=document.querySelector(".button-container");
 
 const calculatorUI=new CalculatorUI(display,button,keys);
 calculatorUI.createButtons();
+calculatorUI.addHistoryEventListener();
+calculatorUI.addFilterButtons();

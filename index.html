@@ -9,12 +9,27 @@
 <body>
     <div class="body__wrapper">
         <div class="calculator">
+
+        <div class="calculator-overlay"></div>
+        <div class="history-wrapper">
+            <button class="history-toggle">
+                <img src="/assets/history-icon.svg" alt="History">
+            </button>
+            
+            <div class="history-dropdown">
+                <input type="text" placeholder="Search history"/>
+
+                <div class="history-filters">
+                    <button class="history-filter active" data-filter="all">All</button>                                      
+                </div>
+                <ul class="history-list"></ul>
+            </div>
+        </div>            
             <div class="display">
                 <div class="display__value"></div>
                 <div class="display__error"></div>            
             </div>        
             <div class="button-container"></div>
-
         </div>
     </div>
 
