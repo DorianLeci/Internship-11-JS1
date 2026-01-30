@@ -7,4 +7,8 @@
     --button-red: hsl(9, 94%, 47%);
     --button-orange: var(--color-orange);
     --buton-dark-grey: var(--color-dark-grey);
+
+    --display-base-font-small: 32px;
+    --display-base-font-medium: 34px;
+    --display-base-font-large: 40px;
 }

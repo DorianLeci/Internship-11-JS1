@@ -11,7 +11,7 @@ export class CalculatorUI{
         this.buttonsContainer=buttonsContainer;
         this.keys=keys;
         this.calculator=new Calculator();
-        this.initialFont=window.getComputedStyle(this.displayValueEl).fontSize;
+        this.baseFont=window.getComputedStyle(this.displayValueEl).fontSize;
         this.filteredList=[];
         this.historyManager=new HistoryManager(this.calculator.history);
     }
@@ -98,15 +98,24 @@ export class CalculatorUI{
         this.displayErrorEl.textContent=this.calculator.displayError;
     }
 
-    adjustFontSize(element, minFont = 12, maxFont = 40) {
+    adjustFontSize(element, minFont = 12) {
+
+        let maxFontVar;
+
+        if(window.innerWidth>=701) maxFontVar="--display-base-font-large";
+        else if(window.innerWidth>=500) maxFontVar="--display-base-font-medium";
+        else maxFontVar="--display-base-font-small";
+
+        const computedStyle = getComputedStyle(element);
+        const maxFont = parseInt(computedStyle.getPropertyValue(maxFontVar));
 
         let fontSize = parseInt(window.getComputedStyle(element).fontSize);
 
-        if(element.scrollWidth>element.clientWidth && fontSize>minFont)
-            element.style.fontSize=(fontSize-1)+"px";
-
-        else if(element.scrollWidth<element.clientWidth && fontSize<maxFont)
-            element.style.fontSize=(fontSize+1)+"px";
+        if (element.scrollWidth > element.clientWidth && fontSize > minFont) {
+            element.style.fontSize = (fontSize - 1) + 'px';
+        } else if (element.scrollWidth < element.clientWidth && fontSize < maxFont) {
+            element.style.fontSize = (fontSize + 1) + 'px';
+        }
     }
 
     handleActionKey(key){
@@ -155,7 +164,7 @@ export class CalculatorUI{
     }
 
     resetFont(){
-        this.displayValueEl.style.fontSize=this.initialFont;
+        this.displayValueEl.style.fontSize="";
     }
 
     handlePowerSwitch(key){

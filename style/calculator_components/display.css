@@ -22,7 +22,7 @@
     align-items: center;  
     height:40px;
     color: white;
-    font-size: 40px;
+    font-size: var(--display-base-font-small);
     font-weight: 400;
     white-space: nowrap;
 }
@@ -40,4 +40,16 @@
     font-size: 16px;
     text-align: center;
     word-break: break-word;
+}
+
+@media (min-width:500px){
+    .display__value{
+        font-size: var(--display-base-font-medium);
+    }
+}
+
+@media (min-width:701px){
+    .display__value{
+        font-size: var(--display-base-font-large);
+    }
 }
