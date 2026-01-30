@@ -23,6 +23,10 @@
     border: none;
 }
 
+.history__toggle.toggle--off img{
+    filter: invert(0.4);
+}
+
 .history__toggle img {
     width: 60%;
     height: 60%;
@@ -72,8 +76,6 @@
     padding: 10px 5px;
     width: 100%;
     overflow-x: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-orange) transparent;
 }
 
 .history__filters > *{
@@ -118,8 +120,9 @@
 .history__expression-result{
     font-weight: bold;
 }
-.history__filters::-webkit-scrollbar-track{
-    background-color: var(--color-orange);
+
+.history__time-div{
+    font-size: 14px;
 }
 
 @media (min-width:500px){
@@ -133,6 +136,10 @@
         justify-content: space-between;
         padding: 20px 20px;
     }
+
+    .history__time-div{
+        font-size: 16px;
+    }    
 }
 
 @media (min-width: 701px) { 

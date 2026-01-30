@@ -168,14 +168,20 @@ export class CalculatorUI{
     }
 
     handlePowerSwitch(key){
-        key.domElement.classList.toggle("button--power-on",this.calculator.isOn);
 
-        this.displayValueEl.parentElement.classList.toggle("display--off",!this.calculator.isOn);
+        const isOn=this.calculator.isOn;
 
-        this.buttonsContainer.classList.toggle("buttons--off",!this.calculator.isOn);
+        const historyToggle=document.querySelector(".history__toggle");
+        historyToggle.classList.toggle("toggle--off",!isOn);
 
+        key.domElement.classList.toggle("button--power-on",isOn);
+        key.domElement.classList.toggle("button--power-off",!isOn);
 
-        key.domElement.textContent= this.calculator.isOn ? "ON" : "OFF";
+        this.displayValueEl.parentElement.classList.toggle("display--off",!isOn);
+
+        this.buttonsContainer.classList.toggle("buttons--off",!isOn);
+
+        key.domElement.textContent= isOn ? "ON" : "OFF";
     }
 
     addHistoryEventListener(){

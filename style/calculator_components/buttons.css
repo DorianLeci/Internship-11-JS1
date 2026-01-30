@@ -27,6 +27,7 @@
      background-color: var(--buton-dark-grey);
 }
 
+.calculator__button.button--power-off,
 .button--red{
     background-color: var(--button-red);
 }
@@ -45,8 +46,9 @@
     background-color: hsl(0,0%,50%);
 }
 
+.calculator__button.button--power-off:hover,
 .button--red:hover{
-    background-color: hsl(9, 94%, 70%);
+    background-color: hsl(9, 94%, 65%);
 }
 
 .button--orange:hover{
