@@ -1,3 +1,5 @@
+import { OperatorSearchMap } from "./OperatorSearchMap.js";
+
 export class HistoryManager{
     constructor(history){
         this.history=history;
@@ -26,7 +28,11 @@ export class HistoryManager{
 
         if(!q) return [...this.history.entries];
 
-        return this.history.entries.filter(entry=>entry.operator.label===q);
+        return this.history.entries.filter(entry=>{ 
+            const keywords=OperatorSearchMap[entry.operator.label];
+
+            return keywords.some(k=>k.startsWith(q));
+        });
     }
 
 

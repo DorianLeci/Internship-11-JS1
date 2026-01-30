@@ -212,16 +212,11 @@ export class CalculatorUI{
     addHistorySearchListener(){
         const searchInput=document.querySelector(".history-search");
 
-        searchInput.addEventListener("keydown",(e)=>{
-            if(e.key!="Enter") return;
-
+        searchInput.addEventListener("input",(e)=>{
             const query=e.currentTarget.value;
             this.filteredList=this.historyManager.search(query);
 
-            console.log("Query: ",this.filteredList);
-
             this.renderHistory();
-
         });
     }
 
