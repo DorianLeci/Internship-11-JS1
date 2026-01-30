@@ -15,7 +15,7 @@
     aspect-ratio: 1;
     border-radius: 50%;
     border: none;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: white;
     cursor: pointer;
@@ -32,7 +32,7 @@
 }
 
 .button--orange{
-    background-color: hsl(43, 94%, 47%);
+    background-color: var(--button-orange);
 }
 
 .button--power-on,
@@ -59,9 +59,15 @@
 }
 
 .button--small{
-    font-size: 32px;
+    font-size: 28px;
 }
 
-.button--big{
-    font-size: 24px;
+@media (min-width: 600px){
+    .calculator__button{
+        font-size: 24px;
+    }
+
+    .button--small{
+        font-size: 32px;
+    }    
 }

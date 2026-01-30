@@ -2,6 +2,7 @@ import { KeyType } from "../enums/KeyType.js";
 import { Calculator } from "./Calculator.js";
 import { OperatorLabel } from "../enums/OperatorLabel.js";
 import { ActionType } from "../enums/ActionType.js";
+import { HistoryManager } from "../history/HistoryManager.js";
 
 export class CalculatorUI{
     constructor(displayContainer,buttonsContainer,keys){
@@ -11,6 +12,8 @@ export class CalculatorUI{
         this.keys=keys;
         this.calculator=new Calculator();
         this.initialFont=window.getComputedStyle(this.displayValueEl).fontSize;
+        this.filteredList=[];
+        this.historyManager=new HistoryManager(this.calculator.history);
     }
 
     createButtons(){
@@ -76,7 +79,11 @@ export class CalculatorUI{
             case KeyType.EQUALS:
                 if(this.calculator.equals()==true)
                     this.resetFont();
+
                 break;
+
+            default:
+                return;
         }
 
 
@@ -168,6 +175,10 @@ export class CalculatorUI{
         historyToggle.addEventListener("click",()=>{
             historyDropdown.classList.toggle("active");
             calculatorOverlay.classList.toggle("active");
+            
+            this.filteredList=this.historyManager.getFilteredList();
+            this.renderHistory();
+
         });
     }
 
@@ -182,8 +193,65 @@ export class CalculatorUI{
             newButton.textContent=op;
 
             historyFilters.appendChild(newButton);
+            
+            newButton.addEventListener("click",(e)=>{
+                const operatorFilter=e.currentTarget.dataset.filter;
+                this.filteredList=this.historyManager.setOperatorFilter(operatorFilter);
+                this.renderHistory();
+            });
+        });
+
+        const allButton=document.querySelector('[data-filter="all"]');
+
+        allButton.addEventListener("click",()=>{
+            this.resetHistoryWithAll();
+            this.renderHistory();
         });
     }
+
+    addHistorySearchListener(){
+        const searchInput=document.querySelector(".history-search");
+
+        searchInput.addEventListener("keydown",(e)=>{
+            if(e.key!="Enter") return;
+
+            const query=e.currentTarget.value;
+            this.filteredList=this.historyManager.search(query);
+
+            console.log("Query: ",this.filteredList);
+
+            this.renderHistory();
+
+        });
+    }
+
+    renderHistory(){
+        const historyList=document.querySelector(".history-list");
+
+        historyList.innerHTML="";
+
+        this.filteredList.forEach(entry=>{
+            const entryDiv=document.createElement("div");
+            entryDiv.classList.add("history-item");
+            entryDiv.textContent=`${entry.expression} = ${entry.result}`;
+
+            historyList.appendChild(entryDiv);
+        })
+    }
+
+    resetHistoryWithAll(){
+        this.activeFilter=null;
+        this.filteredList=this.historyManager.clearOperatorFilter();
+    }
+
+    InitializeUI(){
+        this.createButtons();
+        this.addHistoryEventListener();
+        this.addFilterButtons();
+        this.addHistorySearchListener();
+    }
+
+
 }    
 
 

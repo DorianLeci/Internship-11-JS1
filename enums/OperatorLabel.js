@@ -1,15 +1,16 @@
 export const OperatorLabel=Object.freeze(
     {
-        X_SQUARED: "x²",
-        CBRT: "∛",
-        DIVISION: "÷",
-        SQRT: "√",
-        MULTIPLICATION: "×",
-        LOGARITHM: "log",
-        SUBTRACTION: "-",
-        X_CUBED: "x³",
         ADDITION: "+",
+        SUBTRACTION: "-",
+        MULTIPLICATION: "×",
+        DIVISION: "÷",        
+        SQRT: "√",        
+        CBRT: "∛",
+        IDENTITY: "x",
+        X_SQUARED: "x²",    
+        X_CUBED: "x³",            
+        LOGARITHM: "log",
         FACTORIAL: "!",
-        IDENTITY: "x"
+
     }
 );

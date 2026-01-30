@@ -18,9 +18,6 @@ export class History{
 
         if(this.entries.length>this.limit)
             this.entries.shift();
-
-        this.entries.forEach(entry=>console.log("History: ",entry));
-
     }
 
     clear(){

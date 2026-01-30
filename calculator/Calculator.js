@@ -212,8 +212,7 @@ export class Calculator{
 
         const formattedNumber=formatNumberForDisplay(result);
 
-        console.log("Operator: ",this.operatorState.operator);
-        this.history.addEntry(firstNum,secondNum,this.operatorState.operator,result,this.displayValue);
+        this.history.addEntry(firstNum,secondNum,this.operatorState.operator,formattedNumber,this.displayValue);
 
         this.displayValue=formattedNumber;
 

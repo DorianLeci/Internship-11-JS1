@@ -1,6 +1,7 @@
 :root{
-    --app-width: 400px;
+    --app-width: 430px;
     --button-green: hsl(109, 83%, 35%);
     --button-red: hsl(9, 94%, 47%);
     --buton-dark-grey: hsl(0,0%,30%);
+    --button-orange: hsl(43, 94%, 47%);
 }
