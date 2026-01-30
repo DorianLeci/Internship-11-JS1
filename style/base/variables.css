@@ -1,7 +1,10 @@
 :root{
     --app-width: 430px;
+    --color-dark-grey:hsl(0,0%,30%); 
+    --color-orange: hsl(43, 94%, 47%);
+
     --button-green: hsl(109, 83%, 35%);
     --button-red: hsl(9, 94%, 47%);
-    --buton-dark-grey: hsl(0,0%,30%);
-    --button-orange: hsl(43, 94%, 47%);
+    --button-orange: var(--color-orange);
+    --buton-dark-grey: var(--color-dark-grey);
 }

@@ -170,14 +170,14 @@ export class CalculatorUI{
     }
 
     addHistoryEventListener(){
-        const historyToggle=document.querySelector(".history-toggle");
-        const historyDropdown=document.querySelector(".history-dropdown");
+        const historyToggle=document.querySelector(".history__toggle");
+        const historyDropdown=document.querySelector(".history__dropdown");
         const calculatorOverlay=document.querySelector(".calculator-overlay");
 
         historyToggle.addEventListener("click",()=>{
 
             if(!this.calculator.isOn) return;
-            
+
             historyDropdown.classList.toggle("active");
             calculatorOverlay.classList.toggle("active");
             
@@ -188,11 +188,11 @@ export class CalculatorUI{
     }
 
     addFilterButtons(){
-        const historyFilters=document.querySelector(".history-filters");
+        const historyFilters=document.querySelector(".history__filters");
 
         Object.values(OperatorLabel).forEach(op=>{
             const newButton=document.createElement("button");
-            newButton.classList.add("history-filter");
+            newButton.classList.add("history__filter");
 
             newButton.dataset.filter=op;
             newButton.textContent=op;
@@ -215,7 +215,7 @@ export class CalculatorUI{
     }
 
     addHistorySearchListener(){
-        const searchInput=document.querySelector(".history-search");
+        const searchInput=document.querySelector(".history__search");
 
         searchInput.addEventListener("input",(e)=>{
             const query=e.currentTarget.value;
@@ -226,14 +226,24 @@ export class CalculatorUI{
     }
 
     renderHistory(){
-        const historyList=document.querySelector(".history-list");
+        const historyList=document.querySelector(".history__list");
 
         historyList.innerHTML="";
 
         this.filteredList.forEach(entry=>{
             const entryDiv=document.createElement("div");
-            entryDiv.classList.add("history-item");
-            entryDiv.textContent=`${entry.expression} = ${entry.result}`;
+            entryDiv.classList.add("history__item");
+
+            const exprResultDiv=document.createElement("div");
+            exprResultDiv.classList.add("history__expression-result");
+            exprResultDiv.textContent=`${entry.expression} = ${entry.result}`;
+
+            const timeDiv=document.createElement("div");
+            timeDiv.classList.add("history__time-div");
+            timeDiv.textContent=entry.addedAt.toLocaleTimeString();
+
+            entryDiv.appendChild(exprResultDiv);
+            entryDiv.appendChild(timeDiv);
 
             historyList.appendChild(entryDiv);
         })

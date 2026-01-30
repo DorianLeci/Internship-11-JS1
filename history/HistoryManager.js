@@ -26,7 +26,7 @@ export class HistoryManager{
     search(query){
         const q=query.trim().toLowerCase();
 
-        if(!q) return [...this.history.entries];
+        if(!q) return this.getFilteredList();
 
         return this.history.entries.filter(entry=>{ 
             const keywords=OperatorSearchMap[entry.operator.label];
