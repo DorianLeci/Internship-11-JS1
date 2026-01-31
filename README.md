@@ -1,4 +1,4 @@
-# Simple Calulcator JavaScript App
+# Simple Calculator JavaScript App
 
 ### Repository for DUMP Internship: Week 11 - CSS #2
 
