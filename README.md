@@ -18,9 +18,11 @@ You can find installation info and documentation here: https://marketplace.visua
 You can filter calculator history by clicking on pre-defined buttons with math operator logos or by typing into search bar.
 Search bar filters history live as each letter is typed or deleted. It does this by matching start of defined keywords in search map.
 </br>
+</br>
 <b>For example: m,mu,multiplication will filter by multiplication operator.</b>
 </br>
 Here is search map: 
+</br>
 </br>
     ADDITION: ["plus", "zbroj", "addition", "add", "+"] </br>
     SUBTRACTION: ["minus", "oduzimanje", "subtraction", "subtract", "-"] </br>
