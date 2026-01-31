@@ -21,16 +21,17 @@ Search bar filters history live as each letter is typed or deleted. It does this
 <b>For example: m,mu,multiplication will filter by multiplication operator.</b>
 </br>
 Here is search map: 
-    ADDITION: ["plus", "zbroj", "addition", "add", "+"],
-    SUBTRACTION: ["minus", "oduzimanje", "subtraction", "subtract", "-"],
-    MULTIPLICATION: ["*", "puta", "množenje", "mnozenje", "multiplication", "multiply"],
-    DIVISION: ["÷", "dijeljenje", "division", "divide", "/"],
-    SQRT: ["√", "korijen", "sqrt"],
-    CBRT: ["∛", "kubni korijen", "cbrt"],
-    IDENTITY: ["x", "identitet"],
-    X_SQUARED: ["x²", "kvadrat", "square"],
-    X_CUBED: ["x³", "kocka", "cube"],
-    LOGARITHM: ["log", "ln", "logaritam"],
-    FACTORIAL: ["!", "faktorijel", "factorial"],
+</br>
+    ADDITION: ["plus", "zbroj", "addition", "add", "+"] </br>
+    SUBTRACTION: ["minus", "oduzimanje", "subtraction", "subtract", "-"] </br>
+    MULTIPLICATION: ["*", "puta", "množenje", "mnozenje", "multiplication", "multiply"]</br>
+    DIVISION: ["÷", "dijeljenje", "division", "divide", "/"]</br>
+    SQRT: ["√", "korijen", "sqrt"]</br>
+    CBRT: ["∛", "kubni korijen", "cbrt"]</br>
+    IDENTITY: ["x", "identitet"]</br>
+    X_SQUARED: ["x²", "kvadrat", "square"]</br>
+    X_CUBED: ["x³", "kocka", "cube"]</br>
+    LOGARITHM: ["log", "ln", "logaritam"]</br>
+    FACTORIAL: ["!", "faktorijel", "factorial"]</br>
 
 
