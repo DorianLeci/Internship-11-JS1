@@ -11,6 +11,5 @@ export const OperatorSearchMap = Object.freeze({
     [OperatorLabel.X_SQUARED]: ["x²", "kvadrat", "square"],
     [OperatorLabel.X_CUBED]: ["x³", "kocka", "cube"],
     [OperatorLabel.LOGARITHM]: ["log", "ln", "logaritam"],
-    [OperatorLabel.FACTORIAL]: ["!", "faktorijel", "factorial"],
-    [OperatorLabel.POWER]: ["^", "potencija", "power"]
+    [OperatorLabel.FACTORIAL]: ["!", "faktorijel", "factorial"]
 });
